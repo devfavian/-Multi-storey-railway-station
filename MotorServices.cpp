@@ -25,3 +25,10 @@ void MotorServices::stepAllSync(
       delayMicroseconds(PERIOD_US - PULSE_US);
   }
 }
+void MotorServices::setDirectionAll(
+    Motor& motorX, Motor& motorY, Motor& motorZ, bool dir) {
+
+  motorX.setDirection(dir);
+  motorY.setDirection(dir);
+  motorZ.setDirection(dir);
+}

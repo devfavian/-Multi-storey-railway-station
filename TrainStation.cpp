@@ -5,9 +5,11 @@
 #include "Switch.h"
 #include "MotorServices.h"
 #include "ButtonServices.h"
+#include "StationController.h"
+#include "SwitchServices.h"
 
-int contatore = 0;
-int posizione = 0;
+int counter = 0;
+int position = 0;
 
 Motor motorX(2, 5, 8);
 Motor motorY(3, 6, 8);
@@ -19,6 +21,8 @@ Switch switchZ(11);
 
 MotorServices motorServices;
 ButtonServices buttonServices;
+StationController station(motorX, motorY, motorZ, motorServices);
+SwitchServices switchServices(motorServices, switchX, switchY, switchZ);
 
 void setup() {
   motorX.begin();
@@ -31,44 +35,21 @@ void setup() {
 
   buttonServices.begin();
 
+  station.begin();
+
   Serial.begin(9600);
 
-  posizione = 0;
-  contatore = 0;
+  counter = 0;
+  position = 0;
 }
-
-void VaiAlBinario(int pressedPin) {		//here is ok?
-  contatore = pressedPin;
-  int differenza = contatore - posizione;
-
-  if (differenza == 0) return;
-
-  bool dir = (differenza > 0);
-  int turns = abs(differenza);
-
-  motorX.setDirection(dir);	//duplicated code?
-  motorY.setDirection(dir);
-  motorZ.setDirection(dir);
-
-  Serial.print("turns = ");
-  Serial.println(turns);
-
-  Serial.println("PRIMA");
-  motorServices.stepAllSync(motorX, motorY, motorZ, turns);
-  Serial.println("DOPO");
-
-
-  posizione = contatore;
-}
-
-
 
 void loop() {
 	  int pressedPin = buttonServices.readPressedNumber();
 	  if (pressedPin != -1){
 		  Serial.println(pressedPin);
-		  VaiAlBinario(pressedPin);
-
+		  	  if(pressedPin == 1)	switchServices.reset(motorX, motorY, motorZ, position);
+		  	  else
+		  		  station.goToTrack(pressedPin);
 	  }
 }
 
