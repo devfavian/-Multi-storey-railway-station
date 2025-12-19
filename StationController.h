@@ -6,13 +6,18 @@
 
 class StationController {
 public:
+
+  static constexpr int BASE_TRACK = 1;
+
   StationController(Motor& x, Motor& y, Motor& z, MotorServices& ms);
 
-  void begin(int startTrack = 0);
+  void begin(int startTrack = BASE_TRACK);
 
   void goToTrack(int track);      // imposta target e fa il movimento
-  int currentTrack() const;       // posizione attuale
-  int targetTrack() const;        // ultimo target richiesto
+
+  int getCurrentTrack() const;       // posizione attuale
+  int getTargetTrack() const;        // ultimo target richiesto
+  void setCurrentTrack(int track);
 
 private:
   Motor& motorX;
@@ -20,8 +25,8 @@ private:
   Motor& motorZ;
   MotorServices& motorServices;
 
-  int _currentTrack = 0;
-  int _targetTrack  = 0;
+  int _currentTrack = BASE_TRACK;
+  int _targetTrack  = BASE_TRACK;
 };
 
 

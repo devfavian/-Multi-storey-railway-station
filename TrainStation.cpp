@@ -39,17 +39,21 @@ void setup() {
 
   Serial.begin(9600);
 
-  counter = 0;
-  position = 0;
+  counter = 1;
+  position = 1;
 }
 
 void loop() {
 	  int pressedPin = buttonServices.readPressedNumber();
 	  if (pressedPin != -1){
 		  Serial.println(pressedPin);
-		  	  if(pressedPin == 1)	switchServices.reset(motorX, motorY, motorZ, position);
+		  	  if(pressedPin == 1){
+		  		  switchServices.reset(motorX, motorY, motorZ);
+		  		  position = StationController::BASE_TRACK;
+		  		  station.setCurrentTrack(position);
+		  	  }
 		  	  else
-		  		  station.goToTrack(pressedPin);
+		  		  station.goToTrack(pressedPin), position = pressedPin;
 	  }
 }
 

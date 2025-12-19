@@ -1,16 +1,33 @@
 #include "ButtonServices.h"
 
 ButtonServices::ButtonServices() {
-  // pin da 46 a 35
-  uint8_t p = 46;
-  for (uint8_t i = 0; i < _count; i++) {
-    _pins[i] = p--;
-    _map[i]  = i + 1;   // mapping di default: 46->1, 45->2, ... 35->12
-  }
+  // PIN FISICI
+  _pins[0]  = 46;
+  _pins[1]  = 45;
+  _pins[2]  = 44;
+  _pins[3]  = 43;
+  _pins[4]  = 42;
+  _pins[5]  = 41;
+  _pins[6]  = 40;
+  _pins[7]  = 39;
+  _pins[8]  = 38;
+  _pins[9]  = 37;
+  _pins[10] = 36;
+  _pins[11] = 35;
 
-  // ESEMPIO specifico richiesto: se arriva 35 -> voglio 3
-  // 35 è l'ultimo nell'array (indice 11)
-  _map[_count - 1] = 3;
+  // MAPPATURA LOGICA
+  _map[0]  = 1;   // 46 → 1
+  _map[1]  = 2;   // 45 → 2
+  _map[2]  = 3;   // 44 → 3
+  _map[3]  = 4;
+  _map[4]  = 5;
+  _map[5]  = 6;
+  _map[6]  = 7;
+  _map[7]  = 8;
+  _map[8]  = 9;
+  _map[9]  = 10;
+  _map[10] = 11;
+  _map[11] = 12;  // 35 → 12
 }
 
 void ButtonServices::begin() {
@@ -19,23 +36,14 @@ void ButtonServices::begin() {
   }
 }
 
-int ButtonServices::readHighPin() {
+int ButtonServices::readPressedNumber() {
   for (uint8_t i = 0; i < _count; i++) {
-    // INPUT_PULLUP: premuto = LOW
     if (digitalRead(_pins[i]) == LOW) {
-      return _pins[i];
+      return _map[i];
     }
   }
   return -1;
 }
 
-int ButtonServices::readPressedNumber() {
-  for (uint8_t i = 0; i < _count; i++) {
-    if (digitalRead(_pins[i]) == LOW) {
-      return _map[i];  // ritorna il numero associato al pin premuto
-    }
-  }
-  return -1;
-}
 
 

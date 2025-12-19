@@ -8,8 +8,8 @@ void StationController::begin(int startTrack) {
   _targetTrack  = startTrack;
 }
 
-int StationController::currentTrack() const { return _currentTrack; }
-int StationController::targetTrack()  const { return _targetTrack;  }
+int StationController::getCurrentTrack() const { return _currentTrack; }
+int StationController::getTargetTrack()  const { return _targetTrack;  }
 
 void StationController::goToTrack(int track) {
   _targetTrack = track;
@@ -17,7 +17,7 @@ void StationController::goToTrack(int track) {
   int diff = _targetTrack - _currentTrack;
   if (diff == 0) return;
 
-  bool dir = diff > 0;
+  bool dir = diff  < 0;
   int turns = abs(diff);
 
   motorServices.setDirectionAll(motorX, motorY, motorZ, dir);
@@ -25,6 +25,12 @@ void StationController::goToTrack(int track) {
 
   _currentTrack = _targetTrack;
 }
+
+void StationController::setCurrentTrack(int track) {
+  _currentTrack = track;
+  _targetTrack  = track;  // mantiene stato coerente
+}
+
 
 
 

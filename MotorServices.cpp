@@ -2,9 +2,9 @@
 #include <Arduino.h>
 #include "Motor.h"
 
-static const int STEPS_PER_REV = 3200;
+static const int STEPS_PER_REV = 16828;		//3200
 static const uint16_t PULSE_US = 5;
-static const uint16_t PERIOD_US = 1250;
+static const uint16_t PERIOD_US = 200;
 
 void MotorServices::stepAllSync(
     Motor& motorX, Motor& motorY, Motor& motorZ, int turns) {
