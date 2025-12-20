@@ -4,7 +4,7 @@
 
 static const int STEPS_PER_REV = 16828;		//3200
 static const uint16_t PULSE_US = 5;
-static const uint16_t PERIOD_US = 1000;	//200
+static const uint16_t PERIOD_US = 200;	//200
 
 void MotorServices::stepAllSync(
     Motor& motorX, Motor& motorY, Motor& motorZ, int turns) {
